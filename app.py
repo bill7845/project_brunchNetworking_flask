@@ -4,6 +4,7 @@ import pickle
 import sqlite3
 import os
 import numpy as np
+from konlpy.tag import Twitter
 
 # 로컬 디렉토리에서 HashingVectorizer를 임포트합니다
 # from vectorizer import vect
@@ -16,6 +17,10 @@ clf = pickle.load(open(os.path.join(cur_dir,
                  'pkl_objects',
                  'classifier.pkl'), 'rb'))
 
+twitter = Twitter()
+def tw_tokenizer(text):
+    tokens_ko = twitter.morphs(text)
+    return tokens_ko
 tfidf_matrix_train = pickle.load(open(os.path.join(cur_dir,
                  'pkl_objects',
                  'tfidf_matrix_train.pkl'), 'rb'))
