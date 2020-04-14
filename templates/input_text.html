@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+  <head>
+    <title>text 입력</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+
+<h2>text를 입력해 주세요:</h2>
+
+{% from "_formhelpers.html" import render_field %}
+
+<form method=post action="/results">
+  <dl>
+	{{ render_field(form.input_text, cols='30', rows='10') }}
+  </dl>
+  <div>
+	  <input type=submit value='text 입력' name='submit_btn'>
+  </div>
+</form>
+
+  </body>
+</html>
