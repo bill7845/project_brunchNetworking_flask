@@ -4,7 +4,7 @@ import pickle
 import sqlite3
 import os
 import numpy as np
-from konlpy.tag import Twitter
+from soynlp.tokenizer import LTokenizer
 
 # 로컬 디렉토리에서 HashingVectorizer를 임포트합니다
 # from vectorizer import vect
@@ -13,17 +13,19 @@ app = Flask(__name__)
 
 ######## 분류기 준비
 cur_dir = os.path.dirname(__file__)
-clf = pickle.load(open(os.path.join(cur_dir,
-                 'pkl_objects',
-                 'classifier.pkl'), 'rb'))
+clf = pickle.load(open(os.path.join(cur_dir,'pkl_objects','classifier.pkl'), 'rb'))
 
-twitter = Twitter()
-def tw_tokenizer(text):
-    tokens_ko = twitter.morphs(text)
-    return tokens_ko
-tfidf_matrix_train = pickle.load(open(os.path.join(cur_dir,
-                 'pkl_objects',
-                 'tfidf_matrix_train.pkl'), 'rb'))
+# twitter = Twitter()
+# def tw_tokenizer(text):
+#     tokens_ko = twitter.morphs(text)
+#     return tokens_ko
+
+ltk = LTokenizer()
+def ltk_tokenizer(text):
+  tokens_ltk = ltk.tokenize(text,flatten=True)
+  return tokens_ltk
+
+tfidf_matrix_train = pickle.load(open(os.path.join(cur_dir,'pkl_objects','tfidf_matrix_train.pkl'), 'rb'))
 
 db = os.path.join(cur_dir, 'brunch_text.sqlite')
 
@@ -88,4 +90,4 @@ def feedback():
     return render_template('thanks.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run() # debug=True
