@@ -26,6 +26,8 @@ clf = pickle.load(open(os.path.join(cur_dir,'pkl_objects','classifier.pkl'), 'rb
 #   tokens_ltk = ltk.tokenize(text,flatten=True)
 #   return tokens_ltk
 
+import sys
+sys.path.append('ltk.py')
 ltk_tokenizer = ltk.ltk_tokenizer
 tfidf_matrix_train = pickle.load(open(os.path.join(cur_dir,'pkl_objects','tfidf_matrix_train.pkl'), 'rb'))
 
@@ -92,4 +94,4 @@ def feedback():
     return render_template('thanks.html')
 
 if __name__ == '__main__':
-    app.run() # debug=True
+    app.run(debug=True) # debug=True
