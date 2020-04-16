@@ -5,6 +5,7 @@ import sqlite3
 import os
 import numpy as np
 from soynlp.tokenizer import LTokenizer
+import ltk
 
 # 로컬 디렉토리에서 HashingVectorizer를 임포트합니다
 # from vectorizer import vect
@@ -20,11 +21,12 @@ clf = pickle.load(open(os.path.join(cur_dir,'pkl_objects','classifier.pkl'), 'rb
 #     tokens_ko = twitter.morphs(text)
 #     return tokens_ko
 
-ltk = LTokenizer()
-def ltk_tokenizer(text):
-  tokens_ltk = ltk.tokenize(text,flatten=True)
-  return tokens_ltk
+# ltk = LTokenizer()
+# def ltk_tokenizer(text):
+#   tokens_ltk = ltk.tokenize(text,flatten=True)
+#   return tokens_ltk
 
+ltk_tokenizer = ltk.ltk_tokenizer
 tfidf_matrix_train = pickle.load(open(os.path.join(cur_dir,'pkl_objects','tfidf_matrix_train.pkl'), 'rb'))
 
 db = os.path.join(cur_dir, 'brunch_text.sqlite')
