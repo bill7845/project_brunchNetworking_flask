@@ -83,12 +83,11 @@ def feedback():
     text = request.form['text']
     prediction = request.form['prediction']
 
-    inv_label = {'negative': 0, 'positive': 1}
     y = inv_label[prediction]
     if feedback == 'Incorrect':
         y = int(not(y))
-    train(text, y)
-    sqlite_entry(db, text, y)
+    # train(text, y)
+    # sqlite_entry(db, text, y)
     return render_template('thanks.html')
 
 @app.route('/correction', methods=['POST']) # 피드백
@@ -97,12 +96,18 @@ def correction_category():
     text = request.form['text']
     prediction = request.form['prediction']
 
-    inv_label = {'negative': 0, 'positive': 1}
-    y = inv_label[prediction]
-    if feedback == 'Incorrect':
-        y = int(not(y))
-    train(text, y)
-    sqlite_entry(db, text, y)
+    class_condition = {'지구한바퀴_세계여행':0, '그림·웹툰':1, '시사·이슈':2,
+    'IT_트렌드':3, '사진·촬영':4, '취향저격_영화_리뷰':5, '오늘은_이런_책':6,
+    '뮤직_인사이드':7, '글쓰기_코치':8, '직장인_현실_조언':9, '스타트업_경험담':10,
+    '육아_이야기':11, '요리·레시피':12, '건강·운동':13,'멘탈_관리_심리_탐구':14,
+    '디자인_스토리' :15, '문화·예술':16, '건축·설계':17, '인문학·철학':18,
+    '쉽게_읽는_역사':19, '우리집_반려동물':20,'멋진_캘리그래피':21, '사랑·이별':22,
+    '감성_에세이':23}
+
+    y = class_condition[correction]
+
+    # train(text, y)
+    # sqlite_entry(db, text, y)
     return render_template('thanks.html')
 
 if __name__ == '__main__':
