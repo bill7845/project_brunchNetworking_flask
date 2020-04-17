@@ -10,7 +10,7 @@
 <div>{{ content }}</div>
 
 <h3>Prediction:</h3>
-<div>이 text의 카테고리는 <strong>{{ prediction }}</strong>적입니다.
+<div>이 text의 카테고리는 <strong>{{ prediction }}</strong>입니다.
 	 (확률: {{ probability }}%).</div>
 
 <div id='button'>
@@ -21,6 +21,23 @@
 		<input type=hidden value='{{ content }}' name='text'>
 	  </form>
 </div>
+
+<div> 답 알려주쇼 <div>
+  <div id='button'>
+  	  <form action="/reset" method="post">
+  	    <input type=submit value='1' name='correction_button'>
+  		  <input type=submit value='2' name='correction_button'>
+        <input type=submit value='3' name='correction_button'>
+        <input type=submit value='4' name='correction_button'>
+        <input type=submit value='5' name='correction_button'>
+        <input type=submit value='6' name='correction_button'>
+        <input type=submit value='7' name='correction_button'>
+        <input type=submit value='8' name='correction_button'>
+        <input type=submit value='9' name='correction_button'>
+  		<input type=hidden value='{{ prediction }}' name='prediction'>
+  		<input type=hidden value='{{ content }}' name='text'>
+  	  </form>
+  </div>
 
 <div id='button'>
 	  <form action="/">
