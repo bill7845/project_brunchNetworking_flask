@@ -65,6 +65,7 @@ def index():
     form = InputText(request.form) # text 입력 폼 -> input_text.html로 출력
     return render_template('input_text.html', form=form)
 
+
 @app.route('/results', methods=['POST'])
 def results(): # 결과반환 페이지로
     form = InputText(request.form)
