@@ -78,11 +78,13 @@ def results(): # 결과반환 페이지로
                                 probability=round(proba*100, 2))
     return render_template('input_text.html', form=form) # 조건 갖추어지지 않았을시 입력페이지
 
-@app.route('/thanks', methods=['POST']) # 피드백
+@app.route('/thanks', methods=['POST']) # 맞춤 틀림
 def feedback():
+    form = InputText(request.form)
     feedback = request.form['feedback_button']
     text = request.form['text']
     prediction = request.form['prediction']
+    probability = request.form['probability']
 
     if feedback == 'correct':
         answer = 1
@@ -91,9 +93,9 @@ def feedback():
         return render_template('thanks.html')
 
     elif feedback == 'incorrect':
-        return render_template('incorrect_feedback.html')
+        return render_template('incorrect_feedback.html',content=text,prediction=prediction,probability=probability)
 
-@app.route('/correction', methods=['POST']) # 피드백
+@app.route('/correction', methods=['POST']) # 틀림 -> 피드백
 def correction_category():
     form = InputText(request.form)
     correction = request.form['correction_button']
