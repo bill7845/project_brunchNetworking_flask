@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+  <title>오답을 잡아주세요</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h3>입력한 text :</h3>
+<div>{{ content }}</div>
+
+<h3>Prediction:</h3>
+<div>현재 이 text의 카테고리는 <strong>{{ prediction }}</strong>입니다.
+	 (확률: {{ probability }}%).</div>
+
+<h3>피드백을 보내 주셔서 감사합니다!</h3>
+
+<div> 답 알려주쇼 <div>
+  <div id='button'>
+      <form action="/correction" method="post">
+        <input type=submit value='지구한바퀴_세계여행' name='correction_button'>
+        <input type=submit value='그림·웹툰' name='correction_button'>
+        <input type=submit value='시사·이슈' name='correction_button'>
+        <input type=submit value='IT_트렌드' name='correction_button'>
+        <input type=submit value='사진·촬영' name='correction_button'>
+        <input type=submit value='취향저격_영화_리뷰' name='correction_button'>
+        <input type=submit value='오늘은_이런_책' name='correction_button'>
+        <input type=submit value='뮤직_인사이드' name='correction_button'>
+        <input type=submit value='글쓰기_코치' name='correction_button'>
+        <input type=submit value='직장인_현실_조언' name='correction_button'>
+        <input type=submit value='스타트업_경험담' name='correction_button'>
+        <input type=submit value='육아_이야기' name='correction_button'>
+        <input type=submit value='요리·레시피' name='correction_button'>
+        <input type=submit value='건강·운동' name='correction_button'>
+        <input type=submit value='멘탈_관리_심리_탐구' name='correction_button'>
+        <input type=submit value='디자인_스토리' name='correction_button'>
+        <input type=submit value='문화·예술' name='correction_button'>
+        <input type=submit value='건축·설계' name='correction_button'>
+        <input type=submit value='인문학·철학' name='correction_button'>
+        <input type=submit value='쉽게_읽는_역사' name='correction_button'>
+        <input type=submit value='우리집_반려동물' name='correction_button'>
+        <input type=submit value='멋진_캘리그래피' name='correction_button'>
+        <input type=submit value='사랑·이별' name='correction_button'>
+        <input type=submit value='감성_에세이' name='correction_button'>
+
+      <input type=hidden value='{{ prediction }}' name='prediction'>
+      <input type=hidden value='{{ content }}' name='text'>
+      </form>
+  </div>
+
+
+<div id='button'>
+  <form action="/">
+    <input type=submit value='text 추가 입력'>
+  </form>
+</div>
+
+</body>
+</html>

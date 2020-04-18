@@ -43,11 +43,11 @@ def train(document, y):
     clf.partial_fit(X, [y]) # partial_fit => 부분학습?
 
 ########
-def sqlite_main(path, document, y):
+def sqlite_main(path, document, answer, y, correction_label ):
     conn = sqlite3.connect('brunch_network.db')
     c = conn.cursor()
-    c.execute("INSERT INTO main_table (text, pred_label, date)"\
-    " VALUES (?, ?, DATETIME('now'))", (document, y))
+    c.execute("INSERT INTO main_table (text,answer,pred_label, correction_label, date)"\
+    " VALUES (?, ?, ?, ?, DATETIME('now'))", (document,answer,y,correction_label))
     conn.commit()
     conn.close()
 
@@ -71,7 +71,7 @@ def results(): # 결과반환 페이지로
     if request.method == 'POST' and form.validate(): # intput text의 조건이 갖추어졌다면
         text = request.form['input_text']
         y, proba = classify(text)
-        sqlite_main(db, text, y) # 입력한 text, 예측결과 db로
+        # sqlite_main(db, text, y) # 입력한 text, 예측결과 db로
         return render_template('results.html', # 결과페이지로 전환
                                 content=text,
                                 prediction=y,
@@ -84,15 +84,18 @@ def feedback():
     text = request.form['text']
     prediction = request.form['prediction']
 
-    y = inv_label[prediction]
-    if feedback == 'Incorrect':
-        y = int(not(y))
-    # train(text, y)
-    # sqlite_entry(db, text, y)
-    return render_template('thanks.html')
+    if feedback == 'correct':
+        answer = 1
+        correction_label = None
+        sqlite_main(db, text, answer, prediction, correction_label )
+        return render_template('thanks.html')
+
+    elif feedback == 'incorrect':
+        return render_template('incorrect_feedback.html')
 
 @app.route('/correction', methods=['POST']) # 피드백
 def correction_category():
+    form = InputText(request.form)
     correction = request.form['correction_button']
     text = request.form['text']
     prediction = request.form['prediction']
@@ -105,8 +108,10 @@ def correction_category():
     '쉽게_읽는_역사':19, '우리집_반려동물':20,'멋진_캘리그래피':21, '사랑·이별':22,
     '감성_에세이':23}
 
-    y = class_condition[correction]
-    # sqlite_entry(db, text, y)
+    answer = 0
+    y = prediction
+    correction_label = class_condition[correction]
+    sqlite_main(db, text, answer, y, correction_label)
     # train(text, y)
 
     return render_template('thanks.html')
