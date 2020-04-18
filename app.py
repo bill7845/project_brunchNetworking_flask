@@ -21,7 +21,7 @@ def tw_tokenizer(text):
 tfidf_matrix_train = pickle.load(open(os.path.join(cur_dir,'pkl_objects','tfidf_matrix_train.pkl'), 'rb'))
 
 ######## access db
-db = os.path.join(cur_dir, 'brunch_text.sqlite')
+db = os.path.join(cur_dir, 'brunch_network.db')
 
 ######## input text classify
 ######## 반환값 : 글 카테고리, 확률
@@ -43,10 +43,10 @@ def train(document, y):
     clf.partial_fit(X, [y]) # partial_fit => 부분학습?
 
 ########
-def sqlite_entry(path, document, y):
-    conn = sqlite3.connect(path)
+def sqlite_main(path, document, y):
+    conn = sqlite3.connect('brunch_network.db')
     c = conn.cursor()
-    c.execute("INSERT INTO text_db (text, category, date)"\
+    c.execute("INSERT INTO main_table (text, pred_label, date)"\
     " VALUES (?, ?, DATETIME('now'))", (document, y))
     conn.commit()
     conn.close()
@@ -71,6 +71,7 @@ def results(): # 결과반환 페이지로
     if request.method == 'POST' and form.validate(): # intput text의 조건이 갖추어졌다면
         text = request.form['input_text']
         y, proba = classify(text)
+        sqlite_main(db, text, y) # 입력한 text, 예측결과 db로
         return render_template('results.html', # 결과페이지로 전환
                                 content=text,
                                 prediction=y,
@@ -105,9 +106,9 @@ def correction_category():
     '감성_에세이':23}
 
     y = class_condition[correction]
-
-    # train(text, y)
     # sqlite_entry(db, text, y)
+    # train(text, y)
+
     return render_template('thanks.html')
 
 if __name__ == '__main__':
