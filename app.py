@@ -80,6 +80,7 @@ def results(): # 결과반환 페이지로
                                 probability=round(proba*100, 2))
     return render_template('input_text.html', form=form) # 조건 갖추어지지 않았을시 입력페이지
 
+
 @app.route('/thanks', methods=['POST']) # 맞춤 틀림
 def feedback():
     form = InputText(request.form)
@@ -96,6 +97,7 @@ def feedback():
 
     elif feedback == 'incorrect':
         return render_template('incorrect_feedback.html',content=text,prediction=prediction,probability=probability)
+
 
 @app.route('/correction', methods=['POST']) # 틀림 -> 피드백
 def correction_category():
@@ -117,7 +119,6 @@ def correction_category():
     correction_label = class_condition[correction]
     sqlite_main(db, text, answer, y, correction_label)
     # train(text, y)
-
     return render_template('thanks.html')
 
 if __name__ == '__main__':
